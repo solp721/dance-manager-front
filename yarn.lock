@@ -2080,6 +2080,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-async-storage/async-storage@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@react-native-async-storage/async-storage@npm:2.1.0"
+  dependencies:
+    merge-options: ^3.0.4
+  peerDependencies:
+    react-native: ^0.0.0-0 || >=0.65 <1.0
+  checksum: bc6cdf3554fdd09f3e7916b105d966e56dbaca48475f33da378dd40c3823f7a6978057ca8207bc161c8e0b8c2b08161797dab48955bce1f3e3e457aeaa4ffaf9
+  languageName: node
+  linkType: hard
+
 "@react-native/assets-registry@npm:0.76.3":
   version: 0.76.3
   resolution: "@react-native/assets-registry@npm:0.76.3"
@@ -4285,6 +4296,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.25.2
     "@expo/vector-icons": ^14.0.2
+    "@react-native-async-storage/async-storage": ^2.1.0
     "@react-navigation/bottom-tabs": ^7.0.0
     "@react-navigation/native": ^7.0.0
     "@types/jest": ^29.5.12
@@ -4300,6 +4312,7 @@ __metadata:
     expo-constants: ~17.0.3
     expo-font: ~13.0.1
     expo-haptics: ~14.0.0
+    expo-linear-gradient: ^14.0.1
     expo-linking: ~7.0.3
     expo-router: ~4.0.11
     expo-splash-screen: ~0.29.15
@@ -4314,6 +4327,7 @@ __metadata:
     react-dom: 18.3.1
     react-native: 0.76.3
     react-native-gesture-handler: ~2.20.2
+    react-native-linear-gradient: ^2.8.3
     react-native-reanimated: ~3.16.1
     react-native-safe-area-context: 4.12.0
     react-native-screens: ~4.1.0
@@ -5403,6 +5417,17 @@ __metadata:
     expo: "*"
     react: "*"
   checksum: 67a099a1efce432b63890dcfb51f085bf02f2375590882fd8cf8a7d0251ff8512f52ab0d421b08613b67642d373dbee21420585246d25a427ec1776a1c4af485
+  languageName: node
+  linkType: hard
+
+"expo-linear-gradient@npm:^14.0.1":
+  version: 14.0.1
+  resolution: "expo-linear-gradient@npm:14.0.1"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 8498a6d9888652bcde690f738fc3e00ec7c33ca251275135be73cecd0f7960c635b0c87aa4f73e681c907edcd52764d8a6b29fea3386ee9a74e59ea617d7e228
   languageName: node
   linkType: hard
 
@@ -6795,6 +6820,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-obj@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "is-plain-obj@npm:2.1.0"
+  checksum: cec9100678b0a9fe0248a81743041ed990c2d4c99f893d935545cfbc42876cbe86d207f3b895700c690ad2fa520e568c44afc1605044b535a7820c1d40e38daa
+  languageName: node
+  linkType: hard
+
 "is-plain-object@npm:^2.0.4":
   version: 2.0.4
   resolution: "is-plain-object@npm:2.0.4"
@@ -8151,6 +8183,15 @@ __metadata:
   version: 6.0.0
   resolution: "memoize-one@npm:6.0.0"
   checksum: f185ea69f7cceae5d1cb596266dcffccf545e8e7b4106ec6aa93b71ab9d16460dd118ac8b12982c55f6d6322fcc1485de139df07eacffaae94888b9b3ad7675f
+  languageName: node
+  linkType: hard
+
+"merge-options@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "merge-options@npm:3.0.4"
+  dependencies:
+    is-plain-obj: ^2.1.0
+  checksum: d86ddb3dd6e85d558dbf25dc944f3527b6bacb944db3fdda6e84a3f59c4e4b85231095f58b835758b9a57708342dee0f8de0dffa352974a48221487fe9f4584f
   languageName: node
   linkType: hard
 
@@ -9663,6 +9704,16 @@ __metadata:
     react: ">=18.2.0"
     react-native: ">=0.73.0"
   checksum: 4e07c1e34c01c8d50fd7c1d0460db06f6f0515197405230386a8ffb950cb724b10743af032310d1384df0a90059bfb8992ba2d93344ce86315315f0493feccc2
+  languageName: node
+  linkType: hard
+
+"react-native-linear-gradient@npm:^2.8.3":
+  version: 2.8.3
+  resolution: "react-native-linear-gradient@npm:2.8.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: f980d324e551bbc475c6406bdc5250a08242020cbe653412fa169bbdf51e28a502e225de105b4d696d6a1a1b733d44782469020f4936d8b3ce0e2c78e51cf58f
   languageName: node
   linkType: hard
 
