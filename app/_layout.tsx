@@ -3,15 +3,13 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { Dimensions, Image } from 'react-native';
 import * as Font from 'expo-font';
-import OnboardingScreen from './screens/onborading/OnboardingScreen';
 
 const { height } = Dimensions.get('window');
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-	const [isOnboarding, setIsOnboarding] = useState(true);
-	const [fontsLoaded, setFontsLoaded] = useState(false);
+	const [fontsLoaded, setFontsLoaded] = useState<boolean>(false);
 
 	useEffect(() => {
 		const loadFonts = async () => {
@@ -21,26 +19,17 @@ export default function RootLayout() {
 			setFontsLoaded(true);
 			SplashScreen.hideAsync();
 		};
-
+		console.log(fontsLoaded);
 		loadFonts();
-	}, []);
-
-	const handleOnboardingComplete = () => {
-		setIsOnboarding(false);
-	};
-
-	if (isOnboarding || !fontsLoaded) {
-		return <OnboardingScreen onComplete={handleOnboardingComplete} />;
-	}
+	}, [fontsLoaded]);
 
 	return (
 		<Stack>
 			<Stack.Screen
-				name="(tabs)"
+				name="(onboarding)"
 				options={{
 					headerBackTitle: '',
-					headerShown: true,
-
+					headerShown: false,
 					header: () => (
 						<Image
 							source={require('../assets/images/header/main-header.png')}
@@ -51,7 +40,21 @@ export default function RootLayout() {
 				}}
 			/>
 			<Stack.Screen
-				name="screens/category/[name]"
+				name="home"
+				options={{
+					headerBackTitle: '',
+					headerShown: true,
+					header: () => (
+						<Image
+							source={require('../assets/images/header/main-header.png')}
+							resizeMode="cover"
+							style={{ width: '100%', height: height * 0.18 }}
+						/>
+					),
+				}}
+			/>
+			<Stack.Screen
+				name="(category)"
 				options={{
 					headerShown: true,
 					headerTitle: '카테고리 상세',
