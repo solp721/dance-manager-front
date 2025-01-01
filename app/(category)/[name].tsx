@@ -1,48 +1,104 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import React, { useEffect } from 'react';
+import {
+	View,
+	Text,
+	StyleSheet,
+	FlatList,
+	Image,
+	TouchableOpacity,
+	Dimensions,
+	ActivityIndicator,
+} from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { musicApi } from '@/api/music';
+import { useAtom } from 'jotai';
+import { nameAtom } from '@/store';
+import { Music } from '@/types/music';
+import { musicDataAtom } from '@/store';
+import { selectedMusicAtom } from '@/store';
 
-interface Music {
-	id: number;
-	name: string;
-	category: string;
-	singer: string;
-}
+const { width, height } = Dimensions.get('window');
 
 export default function CategoryDetailScreen() {
 	const params = useLocalSearchParams();
 	const name = typeof params.name === 'string' ? params.name : params.name[0];
-	const [musicData, setMusicData] = useState<Music[]>([]);
+	const [musicData, setMusicData] = useAtom(musicDataAtom);
+	const [nameData, setNameData] = useAtom(nameAtom);
+	const [selectedMusic, setSelectedMusic] = useAtom(selectedMusicAtom);
+	const router = useRouter();
 
 	useEffect(() => {
 		const fetchMusicData = async () => {
 			try {
 				const data = await musicApi.getMusicByCategory(name);
 				setMusicData(data);
+
+				switch (name) {
+					case 'kpop':
+						setNameData('케이팝');
+						break;
+					case 'shortform':
+						setNameData('숏폼');
+						break;
+					case 'trot':
+						setNameData('트로트');
+						break;
+					default:
+						setNameData('창작 댄스');
+				}
 			} catch (error) {
 				console.error('음악 데이터 불러오기 실패:', error);
 			}
 		};
 
 		fetchMusicData();
-	}, [name]);
+	}, [name, setNameData, setMusicData, selectedMusic]);
 
-	const renderItem = ({ item }: { item: Music }) => (
-		<View style={styles.musicItem}>
-			<Text style={styles.musicName}>{item.name}</Text>
-			<Text style={styles.singerName}>{item.singer}</Text>
-		</View>
-	);
+	const renderItem = ({ item }: { item: Music }) => {
+		return (
+			<TouchableOpacity
+				onPress={() => {
+					setSelectedMusic(item);
+					router.push(`/music/${item.id}`);
+				}}
+			>
+				<View style={styles.listItem}>
+					<View>
+						<Image source={{ uri: item.icon }} style={styles.musicIcon} />
+					</View>
+					<View style={styles.titleContainer}>
+						<Text style={styles.titleName}>{item.name} - </Text>
+						<Text style={styles.titleName}>{item.singer}</Text>
+					</View>
+					<TouchableOpacity>
+						<Image
+							source={require('@/assets/images/logo/player.png')}
+							style={styles.playIcon}
+						/>
+					</TouchableOpacity>
+				</View>
+			</TouchableOpacity>
+		);
+	};
 
 	return (
 		<View style={styles.container}>
-			<FlatList
-				data={musicData}
-				renderItem={renderItem}
-				keyExtractor={item => item.id.toString()}
-				style={styles.list}
-			/>
+			<View style={styles.mainContainer}>
+				<View style={styles.titleWrapper}>
+					<Text style={styles.mainTitleName}>인기있는 {nameData} 모음</Text>
+					<Text style={styles.subTitleName}>전체 {musicData.length}</Text>
+				</View>
+			</View>
+			{musicData ? (
+				<FlatList
+					data={musicData}
+					renderItem={renderItem}
+					keyExtractor={item => item.id.toString()}
+					style={styles.list}
+				/>
+			) : (
+				<ActivityIndicator size="large" color="#007BFF" />
+			)}
 		</View>
 	);
 }
@@ -50,29 +106,67 @@ export default function CategoryDetailScreen() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'white',
-		padding: 20,
+		backgroundColor: '#ffffff',
+		justifyContent: 'center',
 	},
-	title: {
-		fontSize: 24,
-		fontWeight: 'bold',
-		marginBottom: 20,
+	titleContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		paddingLeft: width * 0.05,
 	},
 	list: {
 		flex: 1,
+		paddingTop: height * 0.01,
 	},
-	musicItem: {
-		padding: 15,
-		borderBottomWidth: 1,
-		borderBottomColor: '#eee',
+	listItem: {
+		justifyContent: 'space-between',
+		borderWidth: 1,
+		borderColor: 'rgb(229, 229, 229)',
+		margin: height * 0.01,
+		padding: height * 0.01,
+		width: '90%',
+		flex: 1,
+		alignSelf: 'center',
+		alignItems: 'center',
+		flexDirection: 'row',
+		borderRadius: 15,
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 1 },
+		shadowOpacity: 0.05,
+		shadowRadius: 1,
+		elevation: 1,
 	},
-	musicName: {
-		fontSize: 18,
-		fontWeight: '600',
+	musicIcon: {
+		width: width * 0.11,
+		height: height * 0.051,
 	},
-	singerName: {
-		fontSize: 14,
-		color: '#666',
-		marginTop: 4,
+	playIcon: {
+		width: width * 0.06,
+		height: height * 0.028,
+	},
+	titleName: {
+		fontFamily: 'NanumSquareRoundB',
+		fontSize: height * 0.018,
+	},
+	mainTitleName: {
+		fontFamily: 'NanumSquareRound',
+		fontSize: height * 0.02,
+	},
+	subTitleName: {
+		fontFamily: 'NanumSquareRound',
+		paddingTop: height * 0.01,
+		fontSize: height * 0.015,
+		paddingBottom: height * 0.007,
+	},
+	mainContainer: {
+		paddingTop: height * 0.03,
+		paddingLeft: width * 0.06,
+	},
+	titleWrapper: {
+		alignSelf: 'flex-start',
+		borderBottomWidth: 5,
+		borderColor: '#538BDD',
 	},
 });

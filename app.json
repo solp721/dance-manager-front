@@ -28,15 +28,18 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
-          "resizeMode": "contain",
+          "resizeMode": "cover",
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-font", {
-        "fonts": [
-          "./assets/fonts/NanumSquareRound.ttf"
-        ]
-      }
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/NanumSquareRound.ttf"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
