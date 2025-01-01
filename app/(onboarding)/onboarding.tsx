@@ -32,6 +32,13 @@ export default function OnboardingScreen() {
 	}: {
 		item: { key: string; image: JSX.Element };
 	}) => {
+		const subTitleText =
+			item.key === '1'
+				? '일상 생활에 활력소를 !'
+				: item.key === '2'
+					? '여러 장르로 다양한 춤을 !'
+					: '배워 나가는 재미 !';
+
 		return (
 			<LinearGradient
 				colors={['#3E69F4', '#2B52D4']}
@@ -45,7 +52,7 @@ export default function OnboardingScreen() {
 						<View style={styles.titlecontainer}>
 							<Text style={styles.title}>DANCE MANAGER</Text>
 						</View>
-						<Text style={styles.subTitle}>일상 생활에 활력소를 !</Text>
+						<Text style={styles.subTitle}>{subTitleText}</Text>
 					</>
 					<View key={item.key}>{item.image}</View>
 				</View>

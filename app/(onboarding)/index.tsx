@@ -9,14 +9,17 @@ import {
 	Text,
 } from 'react-native';
 import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 
-export interface OnboardingScreenProps {
-	onComplete: () => void;
-}
+export default function SelectionScreen() {
+	const router = useRouter();
 
-export default function SelectionScreen({ onComplete }: OnboardingScreenProps) {
+	const HomeHandler = () => {
+		router.replace('/home');
+	};
+
 	return (
 		<LinearGradient
 			colors={['#3E69F4', '#2B52D4']}
@@ -40,10 +43,8 @@ export default function SelectionScreen({ onComplete }: OnboardingScreenProps) {
 							<Text style={styles.buttonText}>처음 사용하시나요?</Text>
 						</Link>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.button}>
-						<Link href="/home">
-							<Text style={styles.buttonText}>춤배워보기</Text>
-						</Link>
+					<TouchableOpacity style={styles.button} onPress={HomeHandler}>
+						<Text style={styles.buttonText}>춤배워보기</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
