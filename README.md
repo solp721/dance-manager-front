@@ -1,1 +1,1 @@
-# Dance Manager - Expp
+# Dance Manager - Expo
