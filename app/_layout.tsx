@@ -3,6 +3,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { Dimensions, Image } from 'react-native';
 import * as Font from 'expo-font';
+import { Provider } from 'jotai';
 
 const { height } = Dimensions.get('window');
 
@@ -24,44 +25,44 @@ export default function RootLayout() {
 	}, [fontsLoaded]);
 
 	return (
-		<Stack>
-			<Stack.Screen
-				name="(onboarding)"
-				options={{
-					headerBackTitle: '',
-					headerShown: false,
-					header: () => (
-						<Image
-							source={require('../assets/images/header/main-header.png')}
-							resizeMode="cover"
-							style={{ width: '100%', height: height * 0.18 }}
-						/>
-					),
-				}}
-			/>
-			<Stack.Screen
-				name="home"
-				options={{
-					headerBackTitle: '',
-					headerShown: true,
-					header: () => (
-						<Image
-							source={require('../assets/images/header/main-header.png')}
-							resizeMode="cover"
-							style={{ width: '100%', height: height * 0.18 }}
-						/>
-					),
-				}}
-			/>
-			<Stack.Screen
-				name="(category)"
-				options={{
-					headerShown: true,
-					headerTitle: '카테고리 상세',
-					headerBackTitle: '뒤로',
-				}}
-			/>
-			<Stack.Screen name="+not-found" />
-		</Stack>
+		<Provider>
+			<Stack>
+				<Stack.Screen
+					name="(onboarding)"
+					options={{
+						headerBackTitle: '',
+						headerShown: false,
+						header: () => (
+							<Image
+								source={require('../assets/images/header/main-header.png')}
+								resizeMode="cover"
+								style={{ width: '100%', height: height * 0.18 }}
+							/>
+						),
+					}}
+				/>
+				<Stack.Screen
+					name="home"
+					options={{
+						headerBackTitle: '',
+						headerShown: true,
+						header: () => (
+							<Image
+								source={require('../assets/images/header/main-header.png')}
+								resizeMode="cover"
+								style={{ width: '100%', height: height * 0.18 }}
+							/>
+						),
+					}}
+				/>
+				<Stack.Screen
+					name="(category)"
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen name="+not-found" />
+			</Stack>
+		</Provider>
 	);
 }
