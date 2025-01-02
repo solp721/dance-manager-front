@@ -2053,7 +2053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/vector-icons@npm:^14.0.0, @expo/vector-icons@npm:^14.0.2":
+"@expo/vector-icons@npm:^14.0.0, @expo/vector-icons@npm:^14.0.4":
   version: 14.0.4
   resolution: "@expo/vector-icons@npm:14.0.4"
   dependencies:
@@ -5094,7 +5094,7 @@ __metadata:
   resolution: "dance-manager@workspace:."
   dependencies:
     "@babel/core": ^7.25.2
-    "@expo/vector-icons": ^14.0.2
+    "@expo/vector-icons": ^14.0.4
     "@react-native-async-storage/async-storage": ^2.1.0
     "@react-navigation/bottom-tabs": ^7.0.0
     "@react-navigation/native": ^7.0.0
@@ -5111,6 +5111,7 @@ __metadata:
     expo: ~52.0.17
     expo-av: ^15.0.1
     expo-blur: ~14.0.1
+    expo-camera: ^16.0.10
     expo-constants: ~17.0.3
     expo-font: ~13.0.1
     expo-haptics: ~14.0.0
@@ -6252,6 +6253,23 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 5edeb73f3eafd625a9cdeba387154c95c73a477ed255c23b356763cb8c88f0a2feea799a71f6efec9b8bac359395a54a35b7d3f76373309110c8499c4df10e6b
+  languageName: node
+  linkType: hard
+
+"expo-camera@npm:^16.0.10":
+  version: 16.0.10
+  resolution: "expo-camera@npm:16.0.10"
+  dependencies:
+    invariant: ^2.2.4
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native-web:
+      optional: true
+  checksum: 7134b0c3b090d691400bd6c762293ee0c496c74f5767e5e6165e2b913e1a10a9ce4f9eedc5ffc7f1638dd8d1e7e7f1f0b8be98f2cc2ca8908cbe85ab3ef687eb
   languageName: node
   linkType: hard
 
