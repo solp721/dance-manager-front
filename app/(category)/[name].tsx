@@ -61,9 +61,10 @@ export default function CategoryDetailScreen() {
 					setSelectedMusic(item);
 					router.push(`/music/${item.id}`);
 				}}
+				style={styles.background}
 			>
 				<View style={styles.listItem}>
-					<View>
+					<View style={styles.background}>
 						<Image source={{ uri: item.icon }} style={styles.musicIcon} />
 					</View>
 					<View style={styles.titleContainer}>
@@ -97,7 +98,9 @@ export default function CategoryDetailScreen() {
 					style={styles.list}
 				/>
 			) : (
-				<ActivityIndicator size="large" color="#007BFF" />
+				<View style={styles.loadingContainer}>
+					<ActivityIndicator size="large" color="#0000ff" />
+				</View>
 			)}
 		</View>
 	);
@@ -115,6 +118,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		paddingLeft: width * 0.05,
+	},
+	background: {
+		backgroundColor: '#ffffff',
 	},
 	list: {
 		flex: 1,
@@ -168,5 +174,15 @@ const styles = StyleSheet.create({
 		alignSelf: 'flex-start',
 		borderBottomWidth: 5,
 		borderColor: '#538BDD',
+	},
+	loadingContainer: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: 'rgba(255, 255, 255, 0.7)',
 	},
 });
