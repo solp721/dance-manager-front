@@ -73,7 +73,13 @@ export default function MusicDetailPage() {
 		setIsLooping(prev => !prev);
 	};
 
-	const handleMyDance = () => {
+	const handleMyDance = async () => {
+		if (videoRef.current) {
+			const status = await videoRef.current.getStatusAsync();
+			if (status.isLoaded && status.positionMillis > 0) {
+				await handlePause();
+			}
+		}
 		router.push({
 			pathname: '/music/detail/my_camera',
 			params: { videoLink: musicDetail.link },
