@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import { Music, MusicDetail, MusicMovementDetail } from '@/types/music';
+import Constants from 'expo-constants';
 
 const instance = axios.create({
-	baseURL: process.env.EXPO_PUBLIC_API_BASE_URL,
+	baseURL: Constants.manifest.extra.EXPO_PUBLIC_API_BASE_URL,
 });
 
 export const musicApi = {
