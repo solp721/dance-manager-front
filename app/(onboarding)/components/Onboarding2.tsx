@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 	},
 	onboarding: {
 		position: 'absolute',
-		resizeMode: 'cover',
+		resizeMode: 'contain',
 		width: width * 0.9,
 		height: height * 0.55,
 	},

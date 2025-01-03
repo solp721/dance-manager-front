@@ -10,6 +10,13 @@ export default function DetailMusicMovementLayout() {
 					headerShown: false,
 				}}
 			/>
+			<Stack.Screen
+				name="my_camera"
+				options={{
+					presentation: 'modal',
+					headerShown: false,
+				}}
+			/>
 		</Stack>
 	);
 }

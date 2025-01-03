@@ -105,7 +105,15 @@ export default function MusicDetailScreen() {
 						{musicDetail
 							.filter(musicItem => musicItem.step === 3)
 							.map(item => (
-								<TouchableOpacity key={item.id} style={styles.fullOperation}>
+								<TouchableOpacity
+									key={item.id}
+									style={styles.fullOperation}
+									onPress={() =>
+										router.push(
+											`/music/detail/${musicId}_${item.step}_${item.th}`,
+										)
+									}
+								>
 									<View style={styles.textContainer}>
 										<Text style={styles.stepText}>{item.move_name}</Text>
 									</View>

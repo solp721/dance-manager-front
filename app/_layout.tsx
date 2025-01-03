@@ -16,6 +16,7 @@ export default function RootLayout() {
 		const loadFonts = async () => {
 			await Font.loadAsync({
 				NanumSquareRound: require('../assets/fonts/NanumSquareRoundR.ttf'),
+				NanumSquareRoundB: require('../assets/fonts/NanumSquareRoundB.ttf'),
 			});
 			setFontsLoaded(true);
 			SplashScreen.hideAsync();
