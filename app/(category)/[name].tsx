@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		paddingLeft: width * 0.05,
+		backgroundColor: '#ffffff',
 	},
 	background: {
 		backgroundColor: '#ffffff',
@@ -125,6 +126,7 @@ const styles = StyleSheet.create({
 	list: {
 		flex: 1,
 		paddingTop: height * 0.01,
+		backgroundColor: '#ffffff',
 	},
 	listItem: {
 		justifyContent: 'space-between',
@@ -143,37 +145,46 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.05,
 		shadowRadius: 1,
 		elevation: 1,
+		backgroundColor: '#ffffff',
 	},
 	musicIcon: {
 		width: width * 0.11,
 		height: height * 0.051,
+		backgroundColor: '#ffffff',
 	},
 	playIcon: {
+		resizeMode: 'contain',
 		width: width * 0.06,
 		height: height * 0.028,
+		backgroundColor: '#ffffff',
 	},
 	titleName: {
 		fontFamily: 'NanumSquareRoundB',
 		fontSize: height * 0.018,
+		backgroundColor: '#ffffff',
 	},
 	mainTitleName: {
 		fontFamily: 'NanumSquareRound',
 		fontSize: height * 0.02,
+		backgroundColor: '#ffffff',
 	},
 	subTitleName: {
 		fontFamily: 'NanumSquareRound',
 		paddingTop: height * 0.01,
 		fontSize: height * 0.015,
 		paddingBottom: height * 0.007,
+		backgroundColor: '#ffffff',
 	},
 	mainContainer: {
 		paddingTop: height * 0.03,
 		paddingLeft: width * 0.06,
+		backgroundColor: '#ffffff',
 	},
 	titleWrapper: {
 		alignSelf: 'flex-start',
 		borderBottomWidth: 5,
 		borderColor: '#538BDD',
+		backgroundColor: '#ffffff',
 	},
 	loadingContainer: {
 		position: 'absolute',
