@@ -38,5 +38,6 @@ yarn-error.*
 
 app-example
 
-app.config.jks
 eas.json
+
+.yarn/install-state.gz
