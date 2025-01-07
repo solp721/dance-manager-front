@@ -83,26 +83,30 @@ export default function CategoryDetailScreen() {
 	};
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.mainContainer}>
-				<View style={styles.titleWrapper}>
-					<Text style={styles.mainTitleName}>인기있는 {nameData} 모음</Text>
-					<Text style={styles.subTitleName}>전체 {musicData.length}</Text>
-				</View>
-			</View>
+		<>
 			{musicData ? (
-				<FlatList
-					data={musicData}
-					renderItem={renderItem}
-					keyExtractor={item => item.id.toString()}
-					style={styles.list}
-				/>
+				<View style={styles.container}>
+					<View style={styles.mainContainer}>
+						<View style={styles.titleWrapper}>
+							<Text style={styles.mainTitleName}>인기있는 {nameData} 모음</Text>
+							<Text style={styles.subTitleName}>전체 {musicData.length}</Text>
+						</View>
+					</View>
+					<FlatList
+						data={musicData}
+						renderItem={renderItem}
+						keyExtractor={item => item.id.toString()}
+						style={styles.list}
+					/>
+				</View>
 			) : (
-				<View style={styles.loadingContainer}>
-					<ActivityIndicator size="large" color="#0000ff" />
+				<View style={styles.container}>
+					<View style={styles.loadingContainer}>
+						<ActivityIndicator size="large" color="#0000ff" />
+					</View>
 				</View>
 			)}
-		</View>
+		</>
 	);
 }
 

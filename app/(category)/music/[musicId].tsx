@@ -7,6 +7,7 @@ import {
 	Image,
 	ScrollView,
 	TouchableOpacity,
+	ActivityIndicator,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { musicApi } from '@/api/music';
@@ -37,50 +38,75 @@ export default function MusicDetailScreen() {
 	}, [musicId, selectedMusic]);
 
 	return (
-		<View style={styles.container}>
+		<>
 			{selectedMusic ? (
-				<View style={styles.listItem}>
-					<View>
-						<Image
-							source={{ uri: selectedMusic.icon }}
-							style={styles.musicIcon}
-						/>
+				<View style={styles.container}>
+					<View style={styles.listItem}>
+						<View>
+							<Image
+								source={{ uri: selectedMusic.icon }}
+								style={styles.musicIcon}
+							/>
+						</View>
+						<View style={styles.titleContainer}>
+							<Text style={styles.titleName}>{selectedMusic.name} - </Text>
+							<Text style={styles.titleName}>{selectedMusic.singer}</Text>
+						</View>
 					</View>
-					<View style={styles.titleContainer}>
-						<Text style={styles.titleName}>{selectedMusic.name} - </Text>
-						<Text style={styles.titleName}>{selectedMusic.singer}</Text>
-					</View>
-				</View>
-			) : (
-				<Text>음악 정보를 불러오는 중입니다...</Text>
-			)}
-			{musicDetail.length > 0 && (
-				<ScrollView style={styles.scrollCotnainer}>
-					{[0, 1, 2].map(step => {
-						const stepData = musicDetail.filter(
-							musicItem => musicItem.step === step,
-						);
-						return (
-							<View key={step} style={styles.carouselContainer}>
+					{musicDetail.length > 0 && (
+						<ScrollView style={styles.scrollCotnainer}>
+							{[0, 1, 2].map(step => {
+								const stepData = musicDetail.filter(
+									musicItem => musicItem.step === step,
+								);
+								return (
+									<View key={step} style={styles.carouselContainer}>
+										<View style={styles.stepTitleContainer}>
+											<Text style={styles.stepTitle}>
+												{step} 단계 :
+												{step === 0
+													? ' 기본 동작'
+													: step === 1
+														? ' 전체 춤 확인 동작'
+														: ' 1단계의 각 파트를 합친 동작'}
+											</Text>
+										</View>
+										<Swiper
+											style={styles.wrapper}
+											showsButtons={true}
+											showsPagination={true}
+										>
+											{stepData.map((item, index) => (
+												<TouchableOpacity
+													key={index}
+													style={styles.carousel}
+													onPress={() =>
+														router.push(
+															`/music/detail/${musicId}_${item.step}_${item.th}`,
+														)
+													}
+												>
+													<View style={styles.textContainer}>
+														<Text style={styles.stepText}>
+															PART{item.th}. {item.move_name}
+														</Text>
+													</View>
+												</TouchableOpacity>
+											))}
+										</Swiper>
+									</View>
+								);
+							})}
+							<View style={styles.carouselContainer}>
 								<View style={styles.stepTitleContainer}>
-									<Text style={styles.stepTitle}>
-										{step} 단계 :
-										{step === 0
-											? ' 기본 동작'
-											: step === 1
-												? ' 전체 춤 확인 동작'
-												: ' 1단계의 각 파트를 합친 동작'}
-									</Text>
+									<Text style={styles.stepTitle}>3 단계 : 추가 정보</Text>
 								</View>
-								<Swiper
-									style={styles.wrapper}
-									showsButtons={true}
-									showsPagination={true}
-								>
-									{stepData.map((item, index) => (
+								{musicDetail
+									.filter(musicItem => musicItem.step === 3)
+									.map(item => (
 										<TouchableOpacity
-											key={index}
-											style={styles.carousel}
+											key={item.id}
+											style={styles.fullOperation}
 											onPress={() =>
 												router.push(
 													`/music/detail/${musicId}_${item.step}_${item.th}`,
@@ -88,41 +114,22 @@ export default function MusicDetailScreen() {
 											}
 										>
 											<View style={styles.textContainer}>
-												<Text style={styles.stepText}>
-													PART{item.th}. {item.move_name}
-												</Text>
+												<Text style={styles.stepText}>{item.move_name}</Text>
 											</View>
 										</TouchableOpacity>
 									))}
-								</Swiper>
 							</View>
-						);
-					})}
-					<View style={styles.carouselContainer}>
-						<View style={styles.stepTitleContainer}>
-							<Text style={styles.stepTitle}>3 단계 : 추가 정보</Text>
-						</View>
-						{musicDetail
-							.filter(musicItem => musicItem.step === 3)
-							.map(item => (
-								<TouchableOpacity
-									key={item.id}
-									style={styles.fullOperation}
-									onPress={() =>
-										router.push(
-											`/music/detail/${musicId}_${item.step}_${item.th}`,
-										)
-									}
-								>
-									<View style={styles.textContainer}>
-										<Text style={styles.stepText}>{item.move_name}</Text>
-									</View>
-								</TouchableOpacity>
-							))}
+						</ScrollView>
+					)}
+				</View>
+			) : (
+				<View style={styles.container}>
+					<View style={styles.loadingContainer}>
+						<ActivityIndicator size="large" color="#0000ff" />
 					</View>
-				</ScrollView>
+				</View>
 			)}
-		</View>
+		</>
 	);
 }
 
@@ -135,12 +142,11 @@ const styles = StyleSheet.create({
 	},
 	listItem: {
 		backgroundColor: '#EBEBEE',
-		position: 'absolute',
-		top: height * 0.07,
 		justifyContent: 'space-between',
+		top: height * 0.05,
 		borderWidth: 1,
 		borderColor: 'rgb(229, 229, 229)',
-		margin: height * 0.01,
+		margin: height * 0.015,
 		padding: height * 0.01,
 		alignSelf: 'center',
 		alignItems: 'center',
@@ -168,7 +174,7 @@ const styles = StyleSheet.create({
 		fontSize: height * 0.018,
 	},
 	scrollCotnainer: {
-		marginTop: height * 0.15,
+		marginTop: height * 0.05,
 	},
 	stepTitleContainer: {
 		width: width * 0.9,
@@ -223,5 +229,15 @@ const styles = StyleSheet.create({
 	},
 	wrapper: {
 		height: height * 0.15,
+	},
+	loadingContainer: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: 'rgba(255, 255, 255, 0.7)',
 	},
 });
