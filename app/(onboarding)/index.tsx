@@ -20,6 +20,10 @@ export default function SelectionScreen() {
 		router.replace('/home');
 	};
 
+	const OnboardingHandler = () => {
+		router.push('/onboarding');
+	};
+
 	return (
 		<LinearGradient
 			colors={['#3E69F4', '#2B52D4']}
@@ -38,10 +42,8 @@ export default function SelectionScreen() {
 					style={styles.image}
 				/>
 				<View style={styles.buttonContainer}>
-					<TouchableOpacity style={styles.button}>
-						<Link href="/onboarding">
-							<Text style={styles.buttonText}>처음 사용하시나요?</Text>
-						</Link>
+					<TouchableOpacity style={styles.button} onPress={OnboardingHandler}>
+						<Text style={styles.buttonText}>처음 사용하시나요?</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button} onPress={HomeHandler}>
 						<Text style={styles.buttonText}>춤배워보기</Text>
@@ -99,5 +101,7 @@ const styles = StyleSheet.create({
 	buttonText: {
 		fontFamily: 'NanumSquareRound',
 		fontSize: height * 0.025,
+		textAlign: 'center',
+		width: '100%',
 	},
 });
