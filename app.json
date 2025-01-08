@@ -1,85 +1,86 @@
 {
-    "expo": {
-      "name": "Dance Manager",
-      "slug": "dance-manager",
-      "version": "1.0.0",
-      "orientation": "portrait",
-      "icon": "./assets/images/icon.png",
-      "scheme": "myapp",
-      "userInterfaceStyle": "automatic",
-      "newArchEnabled": true,
-      "ios": {
-        "supportsTablet": true,
-        "bundleIdentifier": "com.octopusbbang.dancetutor",
-        "adaptiveIcon": {
-          "foregroundImage": "./assets/images/adaptive-icon.png",
-          "backgroundColor": "#ffffff"
-        },
-        "permissions": [
-          "INTERNET"
-        ]
+  "expo": {
+    "name": "Dance Manager",
+    "slug": "dance-manager",
+    "version": "3.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.octopusbbang.dancetutor",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
       },
-      "android": {
-        "adaptiveIcon": {
-          "foregroundImage": "./assets/images/adaptive-icon.png",
-          "backgroundColor": "#ffffff"
-        },
-        "package": "com.octopusbbang.dancetutor",
-        "permissions": [
-          "INTERNET"
-        ]
+      "permissions": [
+        "INTERNET"
+      ]
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
       },
-      "web": {
-        "bundler": "metro",
-        "output": "static",
-        "favicon": "./assets/images/favicon.png"
-      },
-      "plugins": [
-        "expo-router",
-        [
-          "expo-splash-screen",
-          {
-            "image": "./assets/images/splash-icon.png",
-            "resizeMode": "cover",
-            "backgroundColor": "#ffffff"
-          }
-        ],
-        [
-          "expo-font",
-          {
-            "fonts": [
-              "./assets/fonts/NanumSquareRoundR.ttf",
-              "./assets/fonts/NanumSquareRoundB.ttf"
-            ]
-          }
-        ],
-        [
-          "expo-av",
-          {
-            "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
-          }
-        ]
+      "package": "com.octopusbbang.dancetutor",
+      "permissions": [
+        "INTERNET"
       ],
-      "experiments": {
-        "typedRoutes": true
-      },
-      "extra": {
-        "EXPO_PUBLIC_API_BASE_URL": "https://146.56.110.45.sslip.io",
-        "router": {
-          "origin": false
-        },
-        "eas": {
-          "projectId": "dd6e189d-c311-4f02-9f6c-53c8daf64979"
+      "versionCode": 31
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#ffffff"
         }
-      },
-      "doctor": {
-        "reactNativeDirectoryCheck": {
-          "exclude": [
-            "eas-cli",
-            "expo-module-scripts",
-            "jotai"
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/NanumSquareRoundR.ttf",
+            "./assets/fonts/NanumSquareRoundB.ttf"
           ]
         }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "EXPO_PUBLIC_API_BASE_URL": "https://146.56.110.45.sslip.io",
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "dd6e189d-c311-4f02-9f6c-53c8daf64979"
+      }
+    },
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "eas-cli",
+          "expo-module-scripts",
+          "jotai"
+        ]
       }
     }
   }
+}
