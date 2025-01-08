@@ -7,7 +7,6 @@ import {
 	Image,
 	ScrollView,
 	TouchableOpacity,
-	ActivityIndicator,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { musicApi } from '@/api/music';
@@ -15,6 +14,7 @@ import { MusicDetail } from '@/types/music';
 import { selectedMusicAtom } from '@/store';
 import { useAtom } from 'jotai';
 import Swiper from 'react-native-swiper';
+import { Loading } from '@/components/common/Loading';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,91 +22,70 @@ export default function MusicDetailScreen() {
 	const { musicId } = useLocalSearchParams();
 	const [selectedMusic] = useAtom(selectedMusicAtom);
 	const [musicDetail, setMusicDetail] = useState<MusicDetail[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
 	const router = useRouter();
 
 	useEffect(() => {
 		const fetchMusicDetail = async () => {
+			setIsLoading(true);
 			try {
 				const data = await musicApi.getDetailMusicByMusicId(musicId as string);
 				setMusicDetail(Array.isArray(data) ? data : [data]);
 			} catch (error) {
 				console.error('음악 상세 데이터 불러오기 실패:', error);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 
 		fetchMusicDetail();
 	}, [musicId, selectedMusic]);
 
+	if (isLoading || !selectedMusic) {
+		return <Loading />;
+	}
+
 	return (
-		<>
-			{selectedMusic ? (
-				<View style={styles.container}>
-					<View style={styles.listItem}>
-						<View>
-							<Image
-								source={{ uri: selectedMusic.icon }}
-								style={styles.musicIcon}
-							/>
-						</View>
-						<View style={styles.titleContainer}>
-							<Text style={styles.titleName}>{selectedMusic.name} - </Text>
-							<Text style={styles.titleName}>{selectedMusic.singer}</Text>
-						</View>
-					</View>
-					{musicDetail.length > 0 && (
-						<ScrollView style={styles.scrollCotnainer}>
-							{[0, 1, 2].map(step => {
-								const stepData = musicDetail.filter(
-									musicItem => musicItem.step === step,
-								);
-								return (
-									<View key={step} style={styles.carouselContainer}>
-										<View style={styles.stepTitleContainer}>
-											<Text style={styles.stepTitle}>
-												{step} 단계 :
-												{step === 0
-													? ' 기본 동작'
-													: step === 1
-														? ' 전체 춤 확인 동작'
-														: ' 1단계의 각 파트를 합친 동작'}
-											</Text>
-										</View>
-										<Swiper
-											style={styles.wrapper}
-											showsButtons={true}
-											showsPagination={true}
-										>
-											{stepData.map((item, index) => (
-												<TouchableOpacity
-													key={index}
-													style={styles.carousel}
-													onPress={() =>
-														router.push(
-															`/music/detail/${musicId}_${item.step}_${item.th}`,
-														)
-													}
-												>
-													<View style={styles.textContainer}>
-														<Text style={styles.stepText}>
-															PART{item.th}. {item.move_name}
-														</Text>
-													</View>
-												</TouchableOpacity>
-											))}
-										</Swiper>
-									</View>
-								);
-							})}
-							<View style={styles.carouselContainer}>
+		<View style={styles.container}>
+			<View style={styles.listItem}>
+				<View>
+					<Image
+						source={{ uri: selectedMusic.icon }}
+						style={styles.musicIcon}
+					/>
+				</View>
+				<View style={styles.titleContainer}>
+					<Text style={styles.titleName}>{selectedMusic.name} - </Text>
+					<Text style={styles.titleName}>{selectedMusic.singer}</Text>
+				</View>
+			</View>
+			{musicDetail.length > 0 && (
+				<ScrollView style={styles.scrollCotnainer}>
+					{[0, 1, 2].map(step => {
+						const stepData = musicDetail.filter(
+							musicItem => musicItem.step === step,
+						);
+						return (
+							<View key={step} style={styles.carouselContainer}>
 								<View style={styles.stepTitleContainer}>
-									<Text style={styles.stepTitle}>3 단계 : 추가 정보</Text>
+									<Text style={styles.stepTitle}>
+										{step} 단계 :
+										{step === 0
+											? ' 기본 동작'
+											: step === 1
+												? ' 전체 춤 확인 동작'
+												: ' 1단계의 각 파트를 합친 동작'}
+									</Text>
 								</View>
-								{musicDetail
-									.filter(musicItem => musicItem.step === 3)
-									.map(item => (
+								<Swiper
+									style={styles.wrapper}
+									showsButtons={true}
+									showsPagination={true}
+								>
+									{stepData.map((item, index) => (
 										<TouchableOpacity
-											key={item.id}
-											style={styles.fullOperation}
+											key={index}
+											style={styles.carousel}
 											onPress={() =>
 												router.push(
 													`/music/detail/${musicId}_${item.step}_${item.th}`,
@@ -114,22 +93,41 @@ export default function MusicDetailScreen() {
 											}
 										>
 											<View style={styles.textContainer}>
-												<Text style={styles.stepText}>{item.move_name}</Text>
+												<Text style={styles.stepText}>
+													PART{item.th}. {item.move_name}
+												</Text>
 											</View>
 										</TouchableOpacity>
 									))}
+								</Swiper>
 							</View>
-						</ScrollView>
-					)}
-				</View>
-			) : (
-				<View style={styles.container}>
-					<View style={styles.loadingContainer}>
-						<ActivityIndicator size="large" color="#0000ff" />
+						);
+					})}
+					<View style={styles.carouselContainer}>
+						<View style={styles.stepTitleContainer}>
+							<Text style={styles.stepTitle}>3 단계 : 추가 정보</Text>
+						</View>
+						{musicDetail
+							.filter(musicItem => musicItem.step === 3)
+							.map(item => (
+								<TouchableOpacity
+									key={item.id}
+									style={styles.fullOperation}
+									onPress={() =>
+										router.push(
+											`/music/detail/${musicId}_${item.step}_${item.th}`,
+										)
+									}
+								>
+									<View style={styles.textContainer}>
+										<Text style={styles.stepText}>{item.move_name}</Text>
+									</View>
+								</TouchableOpacity>
+							))}
 					</View>
-				</View>
+				</ScrollView>
 			)}
-		</>
+		</View>
 	);
 }
 
@@ -229,15 +227,5 @@ const styles = StyleSheet.create({
 	},
 	wrapper: {
 		height: height * 0.15,
-	},
-	loadingContainer: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'rgba(255, 255, 255, 0.7)',
 	},
 });

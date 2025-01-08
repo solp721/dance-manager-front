@@ -5,13 +5,13 @@ import {
 	StyleSheet,
 	Dimensions,
 	TouchableOpacity,
-	ActivityIndicator,
 	ImageBackground,
 } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { musicApi } from '@/api/music';
 import { Ionicons } from '@expo/vector-icons';
+import { Loading } from '@/components/common/Loading';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,6 +19,7 @@ export default function MusicDetailPage() {
 	const { step } = useLocalSearchParams();
 	const router = useRouter();
 	const [musicDetail, setMusicDetail] = useState<any>(null);
+	const [isLoading, setIsLoading] = useState(true);
 	const videoRef = useRef<Video>(null);
 	const [isLooping, setIsLooping] = useState(false);
 
@@ -41,44 +42,17 @@ export default function MusicDetailPage() {
 				setMusicDetail(data[0]);
 			} catch (error) {
 				console.error(error);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 
 		fetchData();
 	}, [music_id, stepValue, th]);
 
-	const handlePlay = async () => {
-		if (videoRef.current) {
-			await videoRef.current.playAsync();
-		}
-	};
-
-	const handlePause = async () => {
+	const handleMyDancePress = async () => {
 		if (videoRef.current) {
 			await videoRef.current.pauseAsync();
-		}
-	};
-
-	const handleStop = async () => {
-		if (videoRef.current) {
-			await videoRef.current.stopAsync();
-		}
-	};
-
-	const handleGoBack = () => {
-		router.back();
-	};
-
-	const toggleLooping = () => {
-		setIsLooping(prev => !prev);
-	};
-
-	const handleMyDance = async () => {
-		if (videoRef.current) {
-			const status = await videoRef.current.getStatusAsync();
-			if (status.isLoaded && status.positionMillis > 0) {
-				await handlePause();
-			}
 		}
 		router.push({
 			pathname: '/music/detail/my_camera',
@@ -86,83 +60,89 @@ export default function MusicDetailPage() {
 		});
 	};
 
+	if (isLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<View style={styles.container}>
-			{musicDetail ? (
-				<>
-					<ImageBackground
-						source={require('@/assets/images/header/sub-header.png')}
-						style={styles.header}
-						resizeMode="cover"
-					>
-						<View style={styles.titleContainer}>
-							<View style={styles.topTitle}>
-								<Text style={styles.moveName}> {musicDetail.move_name}</Text>
-							</View>
-							<View style={styles.rightTitle}>
-								<Ionicons
-									name="arrow-back"
-									size={40}
-									color="white"
-									onPress={handleGoBack}
-								/>
-							</View>
-						</View>
-						<View style={styles.buttonContainer}>
-							<TouchableOpacity style={styles.button} onPress={handlePlay}>
-								<Text style={styles.buttonText}>재생 하기</Text>
-								<Ionicons name="play" size={20} color="black" />
-							</TouchableOpacity>
-							<TouchableOpacity style={styles.button} onPress={handlePause}>
-								<Text style={styles.buttonText}>일시 정지</Text>
-								<Ionicons name="pause" size={20} color="black" />
-							</TouchableOpacity>
-							<TouchableOpacity style={styles.button} onPress={handleStop}>
-								<Text style={styles.buttonText}>처음 부터</Text>
-								<Ionicons name="stop" size={20} color="black" />
-							</TouchableOpacity>
-						</View>
-					</ImageBackground>
-					<View style={styles.videoContainer}>
-						<Video
-							ref={videoRef}
-							source={{ uri: musicDetail.link }}
-							style={styles.video}
-							useNativeControls={false}
-							resizeMode={ResizeMode.COVER}
-							isLooping={isLooping}
+			<ImageBackground
+				source={require('@/assets/images/header/sub-header.png')}
+				style={styles.header}
+				resizeMode="cover"
+			>
+				<View style={styles.titleContainer}>
+					<View style={styles.topTitle}>
+						<Text style={styles.moveName}> {musicDetail.move_name}</Text>
+					</View>
+					<View style={styles.rightTitle}>
+						<Ionicons
+							name="arrow-back"
+							size={40}
+							color="white"
+							onPress={() => router.back()}
 						/>
-						<View style={styles.bottomBtnContainer}>
-							<TouchableOpacity
-								style={styles.myDanceBtn}
-								onPress={handleMyDance}
-							>
-								<Text style={styles.danceBtnText}>나의 춤 확인하기</Text>
-								<Ionicons name="camera" size={20} color="white" />
-							</TouchableOpacity>
-						</View>
-						<View style={styles.bottomContainer}>
-							<TouchableOpacity
-								style={[styles.bottomBtn, isLooping && styles.activeButton]}
-								onPress={toggleLooping}
-							>
-								<Ionicons
-									name={isLooping ? 'repeat' : 'repeat-outline'}
-									size={30}
-									color={isLooping ? '#3E69F4' : 'black'}
-								/>
-							</TouchableOpacity>
-						</View>
 					</View>
-					<View style={styles.subTitleContainer}>
-						<Text>자막이 나오는곳입니다.</Text>
-					</View>
-				</>
-			) : (
-				<View style={styles.loadingContainer}>
-					<ActivityIndicator size="large" color="#0000ff" />
 				</View>
-			)}
+				<View style={styles.buttonContainer}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => videoRef.current?.playAsync()}
+					>
+						<Text style={styles.buttonText}>재생 하기</Text>
+						<Ionicons name="play" size={20} color="black" />
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => videoRef.current?.pauseAsync()}
+					>
+						<Text style={styles.buttonText}>일시 정지</Text>
+						<Ionicons name="pause" size={20} color="black" />
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => videoRef.current?.stopAsync()}
+					>
+						<Text style={styles.buttonText}>처음 부터</Text>
+						<Ionicons name="stop" size={20} color="black" />
+					</TouchableOpacity>
+				</View>
+			</ImageBackground>
+			<View style={styles.videoContainer}>
+				<Video
+					ref={videoRef}
+					source={{ uri: musicDetail?.link }}
+					style={styles.video}
+					useNativeControls={false}
+					resizeMode={ResizeMode.COVER}
+					isLooping={isLooping}
+					shouldPlay={true}
+				/>
+				<View style={styles.bottomBtnContainer}>
+					<TouchableOpacity
+						style={styles.myDanceBtn}
+						onPress={handleMyDancePress}
+					>
+						<Text style={styles.danceBtnText}>나의 춤 확인하기</Text>
+						<Ionicons name="camera" size={20} color="white" />
+					</TouchableOpacity>
+				</View>
+				<View style={styles.bottomContainer}>
+					<TouchableOpacity
+						style={[styles.bottomBtn, isLooping && styles.activeButton]}
+						onPress={() => setIsLooping(prev => !prev)}
+					>
+						<Ionicons
+							name={isLooping ? 'repeat' : 'repeat-outline'}
+							size={30}
+							color={isLooping ? '#3E69F4' : 'black'}
+						/>
+					</TouchableOpacity>
+				</View>
+			</View>
+			<View style={styles.subTitleContainer}>
+				<Text>자막이 나오는곳입니다.</Text>
+			</View>
 		</View>
 	);
 }
@@ -300,15 +280,5 @@ const styles = StyleSheet.create({
 	},
 	activeButton: {
 		backgroundColor: '#e0e0e0',
-	},
-	loadingContainer: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'rgba(255, 255, 255, 0.7)',
 	},
 });

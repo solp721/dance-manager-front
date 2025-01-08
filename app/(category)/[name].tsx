@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	View,
 	Text,
@@ -7,7 +7,6 @@ import {
 	Image,
 	TouchableOpacity,
 	Dimensions,
-	ActivityIndicator,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { musicApi } from '@/api/music';
@@ -16,6 +15,7 @@ import { nameAtom } from '@/store';
 import { Music } from '@/types/music';
 import { musicDataAtom } from '@/store';
 import { selectedMusicAtom } from '@/store';
+import { Loading } from '@/components/common/Loading';
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,10 +25,12 @@ export default function CategoryDetailScreen() {
 	const [musicData, setMusicData] = useAtom(musicDataAtom);
 	const [nameData, setNameData] = useAtom(nameAtom);
 	const [selectedMusic, setSelectedMusic] = useAtom(selectedMusicAtom);
+	const [isLoading, setIsLoading] = useState(true);
 	const router = useRouter();
 
 	useEffect(() => {
 		const fetchMusicData = async () => {
+			setIsLoading(true);
 			try {
 				const data = await musicApi.getMusicByCategory(name);
 				setMusicData(data);
@@ -48,74 +50,69 @@ export default function CategoryDetailScreen() {
 				}
 			} catch (error) {
 				console.error('음악 데이터 불러오기 실패:', error);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 
 		fetchMusicData();
 	}, [name, setNameData, setMusicData, selectedMusic]);
 
-	const renderItem = ({ item }: { item: Music }) => {
-		return (
-			<TouchableOpacity
-				onPress={() => {
-					setSelectedMusic(item);
-					router.push(`/music/${item.id}`);
-				}}
-				style={styles.background}
-			>
-				<View style={styles.listItem}>
-					<View style={styles.background}>
-						<Image source={{ uri: item.icon }} style={styles.musicIcon} />
-					</View>
-					<View style={styles.titleContainer}>
-						<Text style={styles.titleName}>{item.name} - </Text>
-						<Text style={styles.titleName}>{item.singer}</Text>
-					</View>
-					<TouchableOpacity>
-						<Image
-							source={require('@/assets/images/logo/player.png')}
-							style={styles.playIcon}
-						/>
-					</TouchableOpacity>
+	const renderItem = ({ item }: { item: Music }) => (
+		<TouchableOpacity
+			key={item.id.toString()}
+			onPress={() => {
+				setSelectedMusic(item);
+				router.push(`/music/${item.id}`);
+			}}
+			style={styles.background}
+		>
+			<View style={styles.listItem}>
+				<View style={styles.background}>
+					<Image source={{ uri: item.icon }} style={styles.musicIcon} />
 				</View>
-			</TouchableOpacity>
-		);
-	};
+				<View style={styles.titleContainer}>
+					<Text style={styles.titleName}>{item.name} - </Text>
+					<Text style={styles.titleName}>{item.singer}</Text>
+				</View>
+				<TouchableOpacity
+					onPress={() => {
+						setSelectedMusic(item);
+						router.push(`/music/${item.id}`);
+					}}
+				>
+					<Image
+						source={require('@/assets/images/logo/player.png')}
+						style={styles.playIcon}
+					/>
+				</TouchableOpacity>
+			</View>
+		</TouchableOpacity>
+	);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
-		<>
-			{musicData ? (
-				<View style={styles.container}>
-					<View style={styles.mainContainer}>
-						<View style={styles.titleWrapper}>
-							<Text style={styles.mainTitleName}>인기있는 {nameData} 모음</Text>
-							<Text style={styles.subTitleName}>전체 {musicData.length}</Text>
-						</View>
-					</View>
-					<FlatList
-						data={musicData}
-						renderItem={renderItem}
-						keyExtractor={item => item.id.toString()}
-						style={styles.list}
-					/>
+		<View style={styles.container}>
+			<View style={styles.mainContainer}>
+				<View style={styles.titleWrapper}>
+					<Text style={styles.mainTitleName}>인기있는 {nameData} 모음</Text>
+					<Text style={styles.subTitleName}>전체 {musicData.length}</Text>
 				</View>
-			) : (
-				<View style={styles.container}>
-					<View style={styles.loadingContainer}>
-						<ActivityIndicator size="large" color="#0000ff" />
-					</View>
-				</View>
-			)}
-		</>
+			</View>
+			<FlatList
+				data={musicData}
+				renderItem={renderItem}
+				keyExtractor={item => item.id.toString()}
+				style={styles.list}
+			/>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#ffffff',
-		justifyContent: 'center',
-	},
 	titleContainer: {
 		flex: 1,
 		flexDirection: 'row',
@@ -190,14 +187,9 @@ const styles = StyleSheet.create({
 		borderColor: '#538BDD',
 		backgroundColor: '#ffffff',
 	},
-	loadingContainer: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
+	container: {
+		flex: 1,
 		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: 'rgba(255, 255, 255, 0.7)',
+		backgroundColor: 'white',
 	},
 });

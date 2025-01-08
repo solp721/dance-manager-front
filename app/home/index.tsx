@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -7,10 +8,30 @@ import {
 	ScrollView,
 } from 'react-native';
 import { Link } from 'expo-router';
+import { useCameraPermissions } from 'expo-camera';
+import { Loading } from '@/components/common/Loading';
 
 const { width, height } = Dimensions.get('window');
 
 export default function HomeScreen() {
+	const [permission, requestPermission] = useCameraPermissions();
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		const initializeScreen = async () => {
+			if (!permission) {
+				await requestPermission();
+			}
+			setIsLoading(false);
+		};
+
+		initializeScreen();
+	}, [permission, requestPermission]);
+
+	if (isLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<ScrollView contentContainerStyle={styles.scrollViewContent}>
 			<View style={styles.cardContainer}>
@@ -111,5 +132,17 @@ const styles = StyleSheet.create({
 		width: '100%',
 		height: '100%',
 		resizeMode: 'cover',
+	},
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+	},
+	message: {
+		textAlign: 'center',
+		paddingBottom: 10,
+	},
+	buttonText: {
+		color: 'white',
+		fontWeight: 'bold',
 	},
 });
