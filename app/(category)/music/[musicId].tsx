@@ -14,6 +14,7 @@ import { MusicDetail } from '@/types/music';
 import { selectedMusicAtom } from '@/store';
 import { useAtom } from 'jotai';
 import Swiper from 'react-native-swiper';
+import { Loading } from '@/components/common/Loading';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,39 +22,43 @@ export default function MusicDetailScreen() {
 	const { musicId } = useLocalSearchParams();
 	const [selectedMusic] = useAtom(selectedMusicAtom);
 	const [musicDetail, setMusicDetail] = useState<MusicDetail[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
 	const router = useRouter();
 
 	useEffect(() => {
 		const fetchMusicDetail = async () => {
+			setIsLoading(true);
 			try {
 				const data = await musicApi.getDetailMusicByMusicId(musicId as string);
 				setMusicDetail(Array.isArray(data) ? data : [data]);
 			} catch (error) {
 				console.error('음악 상세 데이터 불러오기 실패:', error);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 
 		fetchMusicDetail();
 	}, [musicId, selectedMusic]);
 
+	if (isLoading || !selectedMusic) {
+		return <Loading />;
+	}
+
 	return (
 		<View style={styles.container}>
-			{selectedMusic ? (
-				<View style={styles.listItem}>
-					<View>
-						<Image
-							source={{ uri: selectedMusic.icon }}
-							style={styles.musicIcon}
-						/>
-					</View>
-					<View style={styles.titleContainer}>
-						<Text style={styles.titleName}>{selectedMusic.name} - </Text>
-						<Text style={styles.titleName}>{selectedMusic.singer}</Text>
-					</View>
+			<View style={styles.listItem}>
+				<View>
+					<Image
+						source={{ uri: selectedMusic.icon }}
+						style={styles.musicIcon}
+					/>
 				</View>
-			) : (
-				<Text>음악 정보를 불러오는 중입니다...</Text>
-			)}
+				<View style={styles.titleContainer}>
+					<Text style={styles.titleName}>{selectedMusic.name} - </Text>
+					<Text style={styles.titleName}>{selectedMusic.singer}</Text>
+				</View>
+			</View>
 			{musicDetail.length > 0 && (
 				<ScrollView style={styles.scrollCotnainer}>
 					{[0, 1, 2].map(step => {
@@ -135,12 +140,11 @@ const styles = StyleSheet.create({
 	},
 	listItem: {
 		backgroundColor: '#EBEBEE',
-		position: 'absolute',
-		top: height * 0.07,
 		justifyContent: 'space-between',
+		top: height * 0.05,
 		borderWidth: 1,
 		borderColor: 'rgb(229, 229, 229)',
-		margin: height * 0.01,
+		margin: height * 0.015,
 		padding: height * 0.01,
 		alignSelf: 'center',
 		alignItems: 'center',
@@ -168,7 +172,7 @@ const styles = StyleSheet.create({
 		fontSize: height * 0.018,
 	},
 	scrollCotnainer: {
-		marginTop: height * 0.15,
+		marginTop: height * 0.05,
 	},
 	stepTitleContainer: {
 		width: width * 0.9,

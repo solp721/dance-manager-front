@@ -5647,6 +5647,7 @@ __metadata:
     "@types/react-native-onboarding-swiper": ^1.1.9
     "@types/react-test-renderer": ^18.3.0
     axios: ^1.7.9
+    dotenv: ^16.4.7
     eas-cli: ^14.2.0
     eslint: ^8.57.0
     eslint-config-expo: ~8.0.1
@@ -5667,6 +5668,7 @@ __metadata:
     expo-status-bar: ~2.0.0
     expo-symbols: ~0.2.0
     expo-system-ui: ~4.0.5
+    expo-video: ^2.0.3
     expo-web-browser: ~14.0.1
     jest: ^29.2.1
     jest-expo: ~52.0.2
@@ -5677,6 +5679,7 @@ __metadata:
     react-native: 0.76.3
     react-native-app-intro-slider: ^4.0.4
     react-native-gesture-handler: ~2.20.2
+    react-native-indicators: ^0.17.0
     react-native-linear-gradient: ^2.8.3
     react-native-onboarding-swiper: ^1.3.0
     react-native-pager-view: ^6.6.1
@@ -5684,7 +5687,9 @@ __metadata:
     react-native-reanimated-carousel: ^3.5.1
     react-native-safe-area-context: 4.12.0
     react-native-screens: ~4.1.0
+    react-native-skeleton-placeholder: ^5.2.4
     react-native-swiper: ^1.6.0
+    react-native-video: ^6.9.0
     react-native-web: ~0.19.13
     react-native-webview: 13.12.5
     react-test-renderer: 18.3.1
@@ -6015,7 +6020,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.4.5, dotenv@npm:~16.4.5":
+"dotenv@npm:^16.4.5, dotenv@npm:^16.4.7, dotenv@npm:~16.4.5":
   version: 16.4.7
   resolution: "dotenv@npm:16.4.7"
   checksum: c27419b5875a44addcc56cc69b7dc5b0e6587826ca85d5b355da9303c6fc317fc9989f1f18366a16378c9fdd9532d14117a1abe6029cc719cdbbef6eaef2cea4
@@ -7214,6 +7219,17 @@ __metadata:
     react-native-web:
       optional: true
   checksum: d7bb36c30fef1824576f9c4bc639ee45b5ac9220ceb10d0f3843fd9c2423fdda5d9f6b100d564cc2beb25c93c4945eb1d402e9b9e91664ad74d0bf05418bab9d
+  languageName: node
+  linkType: hard
+
+"expo-video@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "expo-video@npm:2.0.3"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: f86adbfd4ec4b561a29fef5f0e306789278816918f191b93c043520abe8fd5f61c3595796c92b3761642ed650a33526cdea05c9452420b0e8757c6317992d7c9
   languageName: node
   linkType: hard
 
@@ -11882,6 +11898,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-indicators@npm:^0.17.0":
+  version: 0.17.0
+  resolution: "react-native-indicators@npm:0.17.0"
+  dependencies:
+    prop-types: ^15.5.10
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 69d0d485b6a4d81f2daaa98ca9029d0ed760470a5ae9c5cce2b81132224b5116ea9bd6829c6bc0d7b0203db4c43e876020005122c306f1a5734c4629c4bb7933
+  languageName: node
+  linkType: hard
+
 "react-native-is-edge-to-edge@npm:^1.1.6":
   version: 1.1.6
   resolution: "react-native-is-edge-to-edge@npm:1.1.6"
@@ -11983,12 +12011,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-skeleton-placeholder@npm:^5.2.4":
+  version: 5.2.4
+  resolution: "react-native-skeleton-placeholder@npm:5.2.4"
+  peerDependencies:
+    "@react-native-masked-view/masked-view": ^0.2.8
+    react: ">=0.14.8"
+    react-native: ">=0.50.1"
+    react-native-linear-gradient: ^2.5.6
+  checksum: c90176c55d0a8342724c38ed5af8baff8ed879b04feeff027574c3c405f3d1be193614bd65e30ddf46407cb951d412f6cc5e2aa4a8e179c589c865f83bdae39e
+  languageName: node
+  linkType: hard
+
 "react-native-swiper@npm:^1.6.0":
   version: 1.6.0
   resolution: "react-native-swiper@npm:1.6.0"
   dependencies:
     prop-types: ^15.5.10
   checksum: 21e7a270dce6d249f718377a8aa2578c9a89b2b076710f6a60dc849ace5b47ade9e071345607947e738c0fdb06b17d9dad6ef99a8f76d7072b13bf3655026225
+  languageName: node
+  linkType: hard
+
+"react-native-video@npm:^6.9.0":
+  version: 6.9.0
+  resolution: "react-native-video@npm:6.9.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: f4df3f930abf789434fc7236a1f9e933e1c90e5e874dee0815ae2031a89dd136929ee2e5ee5ce1f74205006da7a90ef3bf909184b55f9794f4c60d3241ac03e7
   languageName: node
   linkType: hard
 

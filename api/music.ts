@@ -2,8 +2,33 @@ import axios, { AxiosResponse } from 'axios';
 import { Music, MusicDetail, MusicMovementDetail } from '@/types/music';
 import Constants from 'expo-constants';
 
+// # APK 빌드
+// eas build -p android --profile preview
+
+// # AAB 빌드
+// eas build -p android --profile production
+
+// const API_BASE_URL = (() => {
+// 	const expoConfigUrl = Constants.manifest?.extra?.EXPO_PUBLIC_API_BASE_URL;
+// 	const envConfigUrl = process.env.EXPO_PUBLIC_API_BASE_URL;
+
+// 	if (expoConfigUrl) {
+// 		return expoConfigUrl;
+// 	}
+
+// 	if (envConfigUrl) {
+// 		return envConfigUrl;
+// 	}
+
+// 	return 'https://fallback.api.com';
+// })();
+
+const abc = Constants.manifest?.extra?.EXPO_PUBLIC_API_BASE_URL;
+console.log(abc);
+// const def = process.env.EXPO_PUBLIC_API_BASE_URL;
+
 const instance = axios.create({
-	baseURL: Constants.manifest.extra.EXPO_PUBLIC_API_BASE_URL,
+	baseURL: Constants.manifest?.extra?.EXPO_PUBLIC_API_BASE_URL,
 });
 
 export const musicApi = {
