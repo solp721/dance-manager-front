@@ -8,7 +8,6 @@ import {
 	TouchableOpacity,
 	Text,
 } from 'react-native';
-import { Link } from 'expo-router';
 import { useRouter } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
