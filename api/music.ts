@@ -8,6 +8,9 @@ import Constants from 'expo-constants';
 // # AAB 빌드
 // eas build -p android --profile production
 
+// # keystore
+// eas credentials
+
 // const API_BASE_URL = (() => {
 // 	const expoConfigUrl = Constants.manifest?.extra?.EXPO_PUBLIC_API_BASE_URL;
 // 	const envConfigUrl = process.env.EXPO_PUBLIC_API_BASE_URL;
